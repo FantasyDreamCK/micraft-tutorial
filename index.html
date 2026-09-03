@@ -120,6 +120,27 @@
             margin: 0 auto 32px;
         }
 
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            margin-bottom: 32px;
+            background: var(--accent-gradient);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.6);
+        }
+
         .hero-stats {
             display: flex;
             gap: 32px;
@@ -405,6 +426,14 @@
         <div class="hero-badge">🎮 9/3 ～ 9/27 期間限定</div>
         <h1>Micraft 米塊伺服器</h1>
         <p>模組安裝完整教學，跟著步驟一起來玩吧！本伺服器僅開放給會員制成員，為模組生存伺服器。</p>
+
+        <!-- ========================================== -->
+        <!-- 🔗 雲端下載連結（請在此處填入您的網址） 🔗 -->
+        <!-- ========================================== -->
+        <a href="請在這裡貼上您的GoogleDrive連結" target="_blank" class="download-btn">
+            ⬇️ 點此下載模組整合包
+        </a>
+        <!-- ========================================== -->
         <div class="hero-stats">
             <div class="stat">
                 <div class="stat-value">12</div>
