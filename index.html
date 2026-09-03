@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micraft 米塊伺服器 教學指南</title>
+    <meta name="description" content="Micraft 米塊伺服器 模組安裝教學，9/3~9/27 期間限定，共 12 頁步驟圖文說明">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1320;
+            --bg-secondary: #131c2e;
+            --bg-card: #172035;
+            --bg-card-hover: #1d2840;
+            --accent-1: #f472b6;
+            --accent-2: #fb7bb8;
+            --accent-3: #60c8ef;
+            --accent-gradient: linear-gradient(135deg, #f472b6, #fb7bb8, #60c8ef);
+            --text-primary: #fdf2f8;
+            --text-secondary: #c9d8ea;
+            --text-muted: #7a94ad;
+            --border: rgba(244, 114, 182, 0.22);
+            --border-hover: rgba(244, 114, 182, 0.55);
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.45);
+            --shadow-glow: 0 0 40px rgba(244, 114, 182, 0.18);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(244, 114, 182, 0.14) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(96, 200, 239, 0.12) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(180deg, rgba(244, 114, 182, 0.06) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            padding: 6px 18px;
+            font-size: 0.8rem;
+            color: #fbb6d4;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge::before {
+            content: '●';
+            color: #f472b6;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── LAYOUT ── */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 20px;
+            display: block;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 20px 12px;
+            }
+
+            .slide-header {
+                padding: 16px 18px;
+            }
+
+            .slide-content {
+                padding: 18px;
+            }
+        }
+
+
+
+        /* ── SLIDES ── */
+        .slides-column {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .slide-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .slide-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .slide-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 28px;
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.1), rgba(96, 200, 239, 0.06));
+            border-bottom: 1px solid var(--border);
+        }
+
+        .slide-number {
+            flex-shrink: 0;
+            background: var(--accent-gradient);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .slide-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .slide-content {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .slide-heading {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fbb6d4;
+            border-left: 3px solid #f472b6;
+            padding-left: 14px;
+            margin: 8px 0 4px;
+        }
+
+        .slide-subheading {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #a5d8f0;
+            margin: 4px 0;
+        }
+
+        .slide-body {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 2;
+        }
+
+        .slide-empty {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Images */
+        .slide-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 12px;
+            justify-content: center;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            max-height: 600px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: zoom-in;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slide-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Notes */
+        .slide-notes {
+            background: rgba(96, 200, 239, 0.08);
+            border: 1px solid rgba(96, 200, 239, 0.25);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            font-size: 0.88rem;
+            color: #7dd3f0;
+            line-height: 1.7;
+        }
+
+        .notes-label {
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        /* ── LIGHTBOX ── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 95vw;
+            max-height: 90vh;
+            border-radius: var(--radius-md);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+        /* ── PROGRESS BAR ── */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            z-index: 100;
+            transition: width 0.1s ease;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        /* ── SCROLL TO TOP ── */
+        .scroll-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(244, 114, 182, 0.4);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 50;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-badge">🎮 9/3 ～ 9/27 期間限定</div>
+        <h1>Micraft 米塊伺服器</h1>
+        <p>模組安裝完整教學，跟著步驟一起來玩吧！本伺服器僅開放給會員制成員，為模組生存伺服器。</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-value">12</div>
+                <div class="stat-label">投影片頁數</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Slides -->
+        <div class="slides-column">
+
+            <section class="slide-card" id="slide-1">
+                <div class="slide-header">
+                    <span class="slide-number">封面</span>
+                    <h2 class="slide-title">封面：Micraft 米塊伺服器</h2>
+                </div>
+                <div class="slide-content">
+                    <p class="slide-body">ㄉㄧㄢˇㄨㄛˇㄑㄩˋ GOOGLE Drive</p>
+                    <div class="slide-images">
+                        <img src="images/slide_01.png" alt="Micraft 米塊伺服器 公告" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-2">
+                <div class="slide-header">
+                    <span class="slide-number">Step 2</span>
+                    <h2 class="slide-title">Step 1：下載 Fabric Installer</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">下載fabric 選擇0.19.3.exe</h4>
+                    <div class="slide-images"><img src="images/slide_02.png" alt="投影片2圖片" class="slide-image"
+                            loading="lazy">
+                        <img src="images/slide_03.png" alt="投影片2圖片" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-3">
+                <div class="slide-header">
+                    <span class="slide-number">Step 3</span>
+                    <h2 class="slide-title">Step 2：執行 Fabric Installer</h2>
+                </div>
+                <div class="slide-content">
+                    <p class="slide-body">建議位置不要改</p>
+                    <h4 class="slide-subheading">執行fabric 選擇0.19.3.exe、執行前要關閉MC啟動器和遊戲…</h4>
+                    <div class="slide-images"><img src="images/slide_04.png" alt="投影片3圖片" class="slide-image"
+                            loading="lazy">
+                        <img src="images/slide_05.png" alt="投影片3圖片" class="slide-image" loading="lazy">
+                        <img src="images/slide_06.png" alt="投影片3圖片" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-4">
+                <div class="slide-header">
+                    <span class="slide-number">Step 4</span>
+                    <h2 class="slide-title">Step 3：執行 MC 啟動器，進入安裝檔頁面</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">執行MC啟動器、進到安裝檔頁面。</h4>
+                    <div class="slide-images"><img src="images/slide_07.png" alt="投影片4圖片" class="slide-image"
+                            loading="lazy">
+                        <img src="images/slide_08.png" alt="投影片4圖片" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-5">
+                <div class="slide-header">
+                    <span class="slide-number">Step 5</span>
+                    <h2 class="slide-title">Step 4：找到 Fabric，開啟安裝檔資料夾</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">找到Fabric並開啟安裝檔資料夾</h4>
+                    <div class="slide-images"><img src="images/slide_09.png" alt="投影片5圖片" class="slide-image"
+                            loading="lazy">
+                        <img src="images/slide_07.png" alt="投影片5圖片" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-6">
+                <div class="slide-header">
+                    <span class="slide-number">Step 6</span>
+                    <h2 class="slide-title">Step 5：更新 mods 資料夾內的模組</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">到mods資料夾內刪除所有檔案、下載google drive的MOD壓縮包</h4>
+                    <h4 class="slide-subheading">解壓縮後把裡面的mod都放到mods資料夾…</h4>
+                    <p class="slide-body">原本的刪除(如果原本有)</p>
+                    <div class="slide-images"><img src="images/slide_10.png" alt="投影片6圖片" class="slide-image"
+                            loading="lazy">
+                        <img src="images/slide_11.png" alt="投影片6圖片" class="slide-image" loading="lazy">
+                        <img src="images/slide_12.png" alt="投影片6圖片" class="slide-image" loading="lazy">
+                        <img src="images/slide_13.png" alt="投影片6圖片" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-7">
+                <div class="slide-header">
+                    <span class="slide-number">Step 7</span>
+                    <h2 class="slide-title">Step 6：選 Fabric 後按開始遊戲</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">選Fabric後按開始遊戲</h4>
+                    <div class="slide-images"><img src="images/slide_14.png" alt="投影片7圖片" class="slide-image"
+                            loading="lazy">
+                        <img src="images/slide_07.png" alt="投影片7圖片" class="slide-image" loading="lazy">
+                    </div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-8">
+                <div class="slide-header">
+                    <span class="slide-number">Step 8</span>
+                    <h2 class="slide-title">Step 7：進入遊戲後按 ESC → 選項</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">進到遊戲後按ESC、點選項</h4>
+                    <div class="slide-images"><img src="images/slide_15.png" alt="投影片8圖片" class="slide-image"
+                            loading="lazy"></div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-9">
+                <div class="slide-header">
+                    <span class="slide-number">Step 9</span>
+                    <h2 class="slide-title">Step 8：查看模組按鍵綁定 → 選項</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">查看模組按鍵綁定…按 選項</h4>
+                    <div class="slide-images"><img src="images/slide_22.png" alt="投影片14圖片" class="slide-image"
+                            loading="lazy"></div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-10">
+                <div class="slide-header">
+                    <span class="slide-number">Step 10</span>
+                    <h2 class="slide-title">Step 9：按鍵設定</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">按鍵設定</h4>
+                    <div class="slide-images"><img src="images/slide_23.png" alt="投影片15圖片" class="slide-image"
+                            loading="lazy"></div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-11">
+                <div class="slide-header">
+                    <span class="slide-number">Step 11</span>
+                    <h2 class="slide-title">Step 10：按鍵綁定</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">按鍵綁定</h4>
+                    <div class="slide-images"><img src="images/slide_24.png" alt="投影片16圖片" class="slide-image"
+                            loading="lazy"></div>
+                </div>
+            </section>
+            <section class="slide-card" id="slide-12">
+                <div class="slide-header">
+                    <span class="slide-number">Step 12</span>
+                    <h2 class="slide-title">說明：關於按鍵綁定的黃色標記</h2>
+                </div>
+                <div class="slide-content">
+                    <h4 class="slide-subheading">這邊可以看到所有的綁定、黃色標記是指</h4>
+                    <h4 class="slide-subheading">單一按鍵有1個以上功能。</h4>
+                    <div class="slide-images"><img src="images/slide_25.png" alt="投影片17圖片" class="slide-image"
+                            loading="lazy"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>Micraft 米塊伺服器 · 9/3～9/27 期間限定 · 本伺服器僅開放給會員制成員</p>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="回到頂部">↑</button>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="關閉">✕</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <script>
+        // Progress bar
+        const progressBar = document.getElementById('progressBar');
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            const scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+            progressBar.style.width = scrollPct + '%';
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        // TOC active state
+        const sections = document.querySelectorAll('.slide-card');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+                }
+            });
+        }, { threshold: 0.3, rootMargin: '-20px 0px -60% 0px' });
+
+        sections.forEach(s => observer.observe(s));
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        document.querySelectorAll('.slide-image').forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('open');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => lightbox.classList.remove('open'));
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) lightbox.classList.remove('open');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') lightbox.classList.remove('open');
+        });
+    </script>
+</body>
+
+</html>
